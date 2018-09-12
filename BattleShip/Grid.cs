@@ -54,86 +54,11 @@ namespace BattleShip
 
             GridEnumerator itor = GetEnumerator();
 
+            //this loop could throw exception 
             foreach (Cell one in this)
             {
                 m_scratchPad.Add(one);
             }
-
-            /*if (Orientation.UVERTICAL == orient)
-            {
-                Int32 limit = startrow - ship.Cols;
-
-                if ( limit < 0)
-                    throw new Exception();
-
-                for (UInt32 currRow = startrow; currRow > limit && currRow > 0; --currRow)
-                {
-                    for (UInt32 col =0; col<ship.Rows; ++col)
-                    {
-                        if ((startcol+col > m_cols) || (null!=getOccupied(currRow,startcol+col)))
-                            throw new Exception();
-                        
-                        m_scratchPad.Add(m_rowscols[currRow,startcol+col]);
-                    }
-                }
-            }
-            else if (Orientation.DVERTICAL == orient)
-            {
-                Int32 limit = startrow + ship.Cols;
-
-                if ( limit > m_rows)
-                    throw new Exception();
-
-                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
-                {
-                    for (UInt32 col = 0; col < ship.Rows; ++col)
-                    {
-                        if ((startcol + col > m_cols) || (null != getOccupied(currRow, startcol + col)))
-                            throw new Exception();
-
-                        m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
-                    }
-                }
-            }
-            else if (Orientation.LHORIZONTAL == orient)
-            {
-                Int32 limit = startrow + ship.Rows;
-
-                if (limit > m_rows)
-                    throw new Exception();
-
-                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
-                {
-                    for (UInt32 col = 0; col < ship.Cols; ++col)
-                    {
-                        if ((startcol - col < 0) || (null != getOccupied(currRow, startcol - col)))
-                            throw new Exception();
-
-                        m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
-                    }
-                }
-
-            }
-            else if (Orientation.RHORIZONTAL == orient)
-            {
-                Int32 limit = startrow + ship.Rows;
-
-                if (limit > m_rows)
-                    throw new Exception();
-
-                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
-                {
-                    for (UInt32 col = 0; col < ship.Cols; ++col)
-                    {
-                        if ((startcol + col > m_cols) || (null != getOccupied(currRow, startcol + col)))
-                            throw new Exception();
-
-                        m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
-                       
-                    }
-                }
-            }*/
-
 
             foreach (Cell one in m_scratchPad)
             {
