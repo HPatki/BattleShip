@@ -2,13 +2,16 @@
 
 namespace BattleShip
 {
-    interface IGrid
+    public interface IGrid
     {
         void PlaceShip (UInt16 startrow, UInt16 startcol, BattleShip ship, Orientation orient);
 
         Boolean Attack(UInt16 row, UInt16 col);
 
-        BattleShip IsOccupied(Int32 row, Int32 col);
-        
+        BattleShip IsOccupied(UInt16 row, UInt16 col);
+
+        UInt16 GetCols();
+
+        UInt16 GetRows();   
     }
 }

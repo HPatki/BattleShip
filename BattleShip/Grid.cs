@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace BattleShip
 {
-    public class Grid : IGrid
+    internal class Grid : IGrid, IEnumerable
     {
-        private class Cell
+        public class Cell
         {
             private Int32 m_val;
 
@@ -20,6 +21,8 @@ namespace BattleShip
         private UInt16 m_rows, m_cols;
         private List<BattleShip> m_shapes;
         private List<Cell> m_scratchPad;
+        private Orientation m_scratchOrientation;
+        private UInt32 m_ScratchStartRow, m_ScratchStartCol, m_ScratchBSCols, m_ScratchBSRows;
 
         public Grid(UInt16 rows, UInt16 cols)
         {
@@ -33,30 +36,43 @@ namespace BattleShip
             m_scratchPad = new List<Cell>();
         }
 
-        public void PlaceShip (UInt16 startrow, UInt16 startcol, BattleShip ship, Orientation orient)
+        public void PlaceShip(UInt16 startrow, UInt16 startcol, BattleShip ship, Orientation orient)
         {
-            m_scratchPad.Clear();
-
             //check if the object overlaps some other
             if (startrow < 0 || startrow >= m_rows)
                 throw new Exception();
             if (startcol < 0 || startcol >= m_cols)
                 throw new Exception();
-            
-            if (Orientation.UVERTICAL == orient)
+
+            m_scratchPad.Clear();
+
+            m_ScratchStartRow = startrow;
+            m_ScratchStartCol = startcol;
+            m_ScratchBSRows = ship.Rows;
+            m_ScratchBSCols = ship.Cols;
+            m_scratchOrientation = orient;
+
+            GridEnumerator itor = GetEnumerator();
+
+            foreach (Cell one in this)
+            {
+                m_scratchPad.Add(one);
+            }
+
+            /*if (Orientation.UVERTICAL == orient)
             {
                 Int32 limit = startrow - ship.Cols;
 
                 if ( limit < 0)
                     throw new Exception();
 
-                for (Int32 currRow = startrow; currRow > limit && currRow > 0; --currRow)
+                for (UInt32 currRow = startrow; currRow > limit && currRow > 0; --currRow)
                 {
-                    for (UInt16 col =0; col<ship.Rows; ++col)
+                    for (UInt32 col =0; col<ship.Rows; ++col)
                     {
-                        if ((startcol+col > m_cols) || (null!=IsOccupied(currRow,startcol+col)))
+                        if ((startcol+col > m_cols) || (null!=getOccupied(currRow,startcol+col)))
                             throw new Exception();
-
+                        
                         m_scratchPad.Add(m_rowscols[currRow,startcol+col]);
                     }
                 }
@@ -68,11 +84,11 @@ namespace BattleShip
                 if ( limit > m_rows)
                     throw new Exception();
 
-                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (UInt16 col = 0; col < ship.Rows; ++col)
+                    for (UInt32 col = 0; col < ship.Rows; ++col)
                     {
-                        if ((startcol + col > m_cols) || (null != IsOccupied(currRow, startcol + col)))
+                        if ((startcol + col > m_cols) || (null != getOccupied(currRow, startcol + col)))
                             throw new Exception();
 
                         m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
@@ -86,11 +102,11 @@ namespace BattleShip
                 if (limit > m_rows)
                     throw new Exception();
 
-                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (UInt16 col = 0; col < ship.Cols; ++col)
+                    for (UInt32 col = 0; col < ship.Cols; ++col)
                     {
-                        if ((startcol - col < 0) || (null != IsOccupied(currRow, startcol - col)))
+                        if ((startcol - col < 0) || (null != getOccupied(currRow, startcol - col)))
                             throw new Exception();
 
                         m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
@@ -105,18 +121,18 @@ namespace BattleShip
                 if (limit > m_rows)
                     throw new Exception();
 
-                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt32 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (UInt16 col = 0; col < ship.Cols; ++col)
+                    for (UInt32 col = 0; col < ship.Cols; ++col)
                     {
-                        if ((startcol + col > m_cols) || (null != IsOccupied(currRow, startcol + col)))
+                        if ((startcol + col > m_cols) || (null != getOccupied(currRow, startcol + col)))
                             throw new Exception();
 
                         m_scratchPad.Add(m_rowscols[currRow, startcol + col]);
                        
                     }
                 }
-            }
+            }*/
 
 
             foreach (Cell one in m_scratchPad)
@@ -139,14 +155,44 @@ namespace BattleShip
             return false;
         }
 
-        public BattleShip IsOccupied(Int32 row, Int32 col)
+        internal BattleShip getOccupied(UInt32 row, UInt32 col)
         {
             if (row < 0 || row > m_rows || col < 0 || col > m_cols)
                 return null;
             if (0 == m_rowscols[row, col].Val)
                 return null;
             else
-                return m_shapes[m_rowscols[row, col].Val-1];
+                return m_shapes[m_rowscols[row, col].Val - 1];
+        }
+
+        public BattleShip IsOccupied(UInt16 row, UInt16 col)
+        {
+            return getOccupied(row, col);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (IEnumerator)GetEnumerator();
+        }
+
+        public GridEnumerator GetEnumerator()
+        {
+            return GridEnumerator.GetEnumerator(this, m_ScratchStartRow, m_ScratchStartCol, m_ScratchBSRows, m_ScratchBSCols, m_scratchOrientation);
+        }
+
+        public UInt16 GetCols ()
+        {
+            return m_cols;
+        }
+
+        public UInt16 GetRows()
+        {
+            return m_rows;
+        }
+
+        public Cell GetCell(UInt32 row, UInt32 col)
+        {
+            return m_rowscols[row, col];
         }
     }
 }
