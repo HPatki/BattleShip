@@ -41,7 +41,7 @@ Orientation is always with reference to 'Pivot Point', which is the start positi
 - Horizontal Left, Down
 - Horizontal Right, Down
 - Vertically Upwards, Right
-- Vertically Downwards, Left
+- Vertically Downwards, Right
 
 
 
