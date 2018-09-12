@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BattleShip
 {
-    public class Grid
+    public class Grid : IGrid
     {
         private class Cell
         {
@@ -17,11 +17,11 @@ namespace BattleShip
         }
 
         private Cell[,] m_rowscols;
-        private Int16 m_rows, m_cols;
+        private UInt16 m_rows, m_cols;
         private List<BattleShip> m_shapes;
         private List<Cell> m_scratchPad;
 
-        public Grid(Int16 rows, Int16 cols)
+        public Grid(UInt16 rows, UInt16 cols)
         {
             m_rows = rows;
             m_cols = cols;
@@ -33,7 +33,7 @@ namespace BattleShip
             m_scratchPad = new List<Cell>();
         }
 
-        public void PlaceShip (Int16 startrow, Int16 startcol, BattleShip ship, Orientation orient)
+        public void PlaceShip (UInt16 startrow, UInt16 startcol, BattleShip ship, Orientation orient)
         {
             m_scratchPad.Clear();
 
@@ -52,7 +52,7 @@ namespace BattleShip
 
                 for (Int32 currRow = startrow; currRow > limit && currRow > 0; --currRow)
                 {
-                    for (Int16 col =0; col<ship.Rows; ++col)
+                    for (UInt16 col =0; col<ship.Rows; ++col)
                     {
                         if ((startcol+col > m_cols) || (null!=IsOccupied(currRow,startcol+col)))
                             throw new Exception();
@@ -68,9 +68,9 @@ namespace BattleShip
                 if ( limit > m_rows)
                     throw new Exception();
 
-                for (Int16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (Int16 col = 0; col < ship.Rows; ++col)
+                    for (UInt16 col = 0; col < ship.Rows; ++col)
                     {
                         if ((startcol + col > m_cols) || (null != IsOccupied(currRow, startcol + col)))
                             throw new Exception();
@@ -86,9 +86,9 @@ namespace BattleShip
                 if (limit > m_rows)
                     throw new Exception();
 
-                for (Int16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (Int16 col = 0; col < ship.Cols; ++col)
+                    for (UInt16 col = 0; col < ship.Cols; ++col)
                     {
                         if ((startcol - col < 0) || (null != IsOccupied(currRow, startcol - col)))
                             throw new Exception();
@@ -105,9 +105,9 @@ namespace BattleShip
                 if (limit > m_rows)
                     throw new Exception();
 
-                for (Int16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
+                for (UInt16 currRow = startrow; currRow < limit && currRow < m_rows; ++currRow)
                 {
-                    for (Int16 col = 0; col < ship.Cols; ++col)
+                    for (UInt16 col = 0; col < ship.Cols; ++col)
                     {
                         if ((startcol + col > m_cols) || (null != IsOccupied(currRow, startcol + col)))
                             throw new Exception();
@@ -128,7 +128,7 @@ namespace BattleShip
             m_shapes.Add(ship);
         }
 
-        public Boolean Attack(Int16 row, Int16 col)
+        public Boolean Attack(UInt16 row, UInt16 col)
         {
             BattleShip shp = IsOccupied(row, col);
             if (null != shp)

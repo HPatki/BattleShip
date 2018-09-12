@@ -5,12 +5,12 @@ namespace BattleShip
 {
     public class Board
     {
-        private Grid m_Grid;
+        private IGrid m_Grid;
         private BattleShip[] m_shapes;
-        private Int16 m_numShapes;
-        private Int16 m_currNumShapes;
+        private UInt16 m_numShapes;
+        private UInt16 m_currNumShapes;
 
-        public Board(Int16 rows, Int16 cols, Int16 numshapes)
+        public Board(UInt16 rows, UInt16 cols, UInt16 numshapes)
         {
             m_Grid = new Grid(rows,cols);
             m_numShapes = numshapes;
@@ -25,14 +25,14 @@ namespace BattleShip
             m_shapes[m_currNumShapes++] = Obj;
         }
 
-        public BattleShip GetBattleShip(Int16 pos)
+        public BattleShip GetBattleShip(UInt16 pos)
         {
             if (pos > m_numShapes)
                 return null;
             return m_shapes[pos];
         }
 
-        public Boolean PlaceShip(Int16 startrow, Int16 startcol, BattleShip Obj, Orientation orient)
+        public Boolean PlaceShip(UInt16 startrow, UInt16 startcol, BattleShip Obj, Orientation orient)
         {
             try
             {
@@ -46,12 +46,12 @@ namespace BattleShip
             return true;
         }
 
-        public Boolean Attack(Int16 row, Int16 col)
+        public Boolean Attack(UInt16 row, UInt16 col)
         {
             return m_Grid.Attack(row, col);
         }
 
-        public BattleShip IsOccupied(Int16 row, Int16 col)
+        public BattleShip IsOccupied(UInt16 row, UInt16 col)
         {
             return m_Grid.IsOccupied(row, col);
         }

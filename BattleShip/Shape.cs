@@ -7,22 +7,22 @@ namespace BattleShip
      */
     public class BattleShip
     {
-        private Int16 m_rows;
-        private Int16 m_cols;
-        private Int16 m_CellsIntact;
+        private UInt16 m_rows;
+        private UInt16 m_cols;
+        private UInt16 m_CellsIntact;
        
-        public Int16 Rows
+        public UInt16 Rows
         {
             get { return m_rows;}
 
         }
 
-        public Int16 Cols
+        public UInt16 Cols
         {
             get { return m_cols; }
         }
 
-        public BattleShip(Int16 rows, Int16 cols)
+        public BattleShip(UInt16 rows, UInt16 cols)
         {
             m_rows = rows;
             m_cols = cols;
@@ -39,7 +39,7 @@ namespace BattleShip
             m_CellsIntact -= 1;
         }
 
-        public Int16 GetIntactCells()
+        public UInt16 GetIntactCells()
         {
             return m_CellsIntact;
         }
