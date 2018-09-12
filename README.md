@@ -1,9 +1,11 @@
 # BattleShip
 
-This is an Implementation of the popular Game 'BattleShip'.
+This is an Implementation of the popular Game 'BattleShip'. 
 
 The Project is coded in C#, using .NET 4.5 & Visual Studio 2012. Compilation on higher versions of Visual Studio will 
 will require an upgrade to the project files (Visual Studio should do this for you).
+
+The project is built as a Library and requires a 'Driver' program. Take a look at the 'Test Cases' to understand how to use the classes.
 
 At a high Level, the project consists of following classes
 
