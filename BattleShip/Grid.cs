@@ -102,7 +102,8 @@ namespace BattleShip
 
         public GridEnumerator GetEnumerator()
         {
-            return GridEnumerator.GetEnumerator(this, m_ScratchStartRow, m_ScratchStartCol, m_ScratchBSRows, m_ScratchBSCols, m_scratchOrientation);
+            return GridEnumerator.GetEnumerator(this, m_ScratchStartRow, m_ScratchStartCol,
+                m_ScratchBSRows, m_ScratchBSCols, m_scratchOrientation);
         }
 
         public UInt16 GetCols ()

@@ -14,7 +14,7 @@ namespace BattleShip
 
         public UVerticalEnumerator()
         {
-            m_limit = (Int32)(m_StartRow - m_BSCols);
+            m_limit = (Int32)(m_StartRow - m_BSCols + 1); //+1 to compensate for zero based indexes
             m_CurrCol = 0;
             m_CurrRow = m_StartRow;
             m_FirstTime = true;
