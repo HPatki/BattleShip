@@ -1,4 +1,4 @@
-# BattleShip
+# BattleShip - Changed on new branch
 
 This is an Implementation of the popular Game 'BattleShip'. 
 
